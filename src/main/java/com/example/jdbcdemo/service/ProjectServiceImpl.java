@@ -30,8 +30,7 @@ public class ProjectServiceImpl implements ProjectService {
 		String statement = "SELECT * FROM PROJECT";
 		ResultSet rs;
 		List<Project> result = new ArrayList<Project>();
-		try {
-			Connection c = datasource.getConnection();
+		try(Connection c = datasource.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(statement);
 			rs = ps.executeQuery();
 			rs.first();
@@ -42,6 +41,7 @@ public class ProjectServiceImpl implements ProjectService {
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
+		System.out.println("==============================================================" + result.size());
 		return result;
 	}
 	
@@ -50,12 +50,12 @@ public class ProjectServiceImpl implements ProjectService {
 		String statement = "SELECT * FROM PROJECT WHERE id = " + id;
 		ResultSet rs;
 		Project result = new Project();
-		try {
-			Connection c = datasource.getConnection();
+		try(Connection c = datasource.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(statement);
 			rs = ps.executeQuery();
 			rs.first();
 			result = new Project((long) rs.getInt(1), rs.getString(2));
+			c.close();
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -66,10 +66,10 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public void create(Project project) {
 	    String statement = String.format("INSERT INTO PROJECT ( id, name ) VALUES ( %d, '%s' ) ", project.getId(), project.getName());
-	    try {
-			Connection c = datasource.getConnection();
+	    try(Connection c = datasource.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(statement);
 			ps.execute();
+			
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
@@ -78,8 +78,7 @@ public class ProjectServiceImpl implements ProjectService {
 	@Override
 	public void update(Project project) {
 		String statement = String.format("UPDATE PROJECT SET name = '%s' WHERE id = %d", project.getName(), project.getId());
-		try {
-			Connection c = datasource.getConnection();
+		try(Connection c = datasource.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(statement);
 			ps.execute();
 		} catch (SQLException e) {
@@ -90,9 +89,8 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void deleteById(long l) {
-		String statement = String.format("DELETE FROM PROJECT WHERE id = %d", l);
-		try {
-			Connection c = datasource.getConnection();
+		String statement = String.format("DELETE FROM PROJECT WHERE id = " + l);
+		try(Connection c = datasource.getConnection()) {
 			PreparedStatement ps = c.prepareStatement(statement);
 			ps.execute();
 		} catch (SQLException e) {
