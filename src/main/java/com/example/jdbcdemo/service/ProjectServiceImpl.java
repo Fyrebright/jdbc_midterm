@@ -27,33 +27,37 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Override
 	public List<Project> getAll() {
-		//TODO: Implement get all function using JDBC
+    String statement = "SELECT * FROM PROJECT";
+		this.jdbcTemplate.update(statement);
 		
 		return null;
 	}
 	
 	@Override
 	public Project getById(Long id) {
-		//TODO: Implement get by Id function using JDBC
+		String statement = "SELECT * FROM PROJECT WHERE id = " + id;
+		this.jdbcTemplate.update(statement);
 		
 		return null;
 	}
 
 	@Override
 	public void create(Project project) {
-		//TODO: Implement create function using JDBC
-
+    String statement = String.format("INSERT INTO PROJECT (id, name) VALUES (%d, %s)", project.getId(), project.getName());
+		this.jdbcTemplate.update(statement);
 	}
 
 	@Override
 	public void update(Project project) {
-		//TODO: Impleement update function using JDBC
+		String statement = String.format("UPDATE PROJECT SET name = %s WHERE id = %d", project.getId(), project.getName());
+		this.jdbcTemplate.update(statement);
 
 	}
 
 	@Override
 	public void deleteById(long l) {
-		//TODO: Implement delete function using JDBC
+		String statement = String.format("DELETE * FROM PROJECT WHERE id = %d", project.getId());
+		this.jdbcTemplate.update(statement);
 
 	}
 
