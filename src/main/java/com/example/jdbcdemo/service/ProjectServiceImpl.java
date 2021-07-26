@@ -27,37 +27,77 @@ public class ProjectServiceImpl implements ProjectService {
 	
 	@Override
 	public List<Project> getAll() {
-    String statement = "SELECT * FROM PROJECT";
-		this.jdbcTemplate.update(statement);
-		
-		return null;
+		String statement = "SELECT * FROM PROJECT";
+		ResultSet rs;
+		List<Project> result = new ArrayList<Project>();
+		try {
+			Connection c = datasource.getConnection();
+			PreparedStatement ps = c.prepareStatement(statement);
+			rs = ps.executeQuery();
+			rs.first();
+			while(rs.next()) {
+				result.add(new Project((long) rs.getInt(0), rs.getString(1)));
+			}
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 	
 	@Override
 	public Project getById(Long id) {
 		String statement = "SELECT * FROM PROJECT WHERE id = " + id;
-		this.jdbcTemplate.update(statement);
-		
-		return null;
+		ResultSet rs;
+		Project result = new Project();
+		try {
+			Connection c = datasource.getConnection();
+			PreparedStatement ps = c.prepareStatement(statement);
+			rs = ps.executeQuery();
+			rs.first();
+			result = new Project((long) rs.getInt(0), rs.getString(1));
+			
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+		return result;
 	}
 
 	@Override
 	public void create(Project project) {
-    String statement = String.format("INSERT INTO PROJECT ( id, name ) VALUES ( %d, %s ) ", project.getId(), project.getName());
-		this.jdbcTemplate.update(statement);
+	    String statement = String.format("INSERT INTO PROJECT ( id, name ) VALUES ( %d, %s ) ", project.getId(), project.getName());
+	    try {
+			Connection c = datasource.getConnection();
+			PreparedStatement ps = c.prepareStatement(statement);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 	}
 
 	@Override
 	public void update(Project project) {
 		String statement = String.format("UPDATE PROJECT SET name = %s WHERE id = %d", project.getId(), project.getName());
-		this.jdbcTemplate.update(statement);
+		try {
+			Connection c = datasource.getConnection();
+			PreparedStatement ps = c.prepareStatement(statement);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
 	@Override
 	public void deleteById(long l) {
 		String statement = String.format("DELETE * FROM PROJECT WHERE id = %d", l);
-		this.jdbcTemplate.update(statement);
+		try {
+			Connection c = datasource.getConnection();
+			PreparedStatement ps = c.prepareStatement(statement);
+			ps.execute();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
 
 	}
 
