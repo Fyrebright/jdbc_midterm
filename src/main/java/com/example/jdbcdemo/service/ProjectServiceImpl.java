@@ -36,7 +36,6 @@ public class ProjectServiceImpl implements ProjectService {
 			rs = ps.executeQuery();
 			rs.first();
 			while(rs.next()) {
-				System.out.println(rs.getInt(1) + " " + rs.getString(2));
 				result.add(new Project((long) rs.getInt(1), rs.getString(2)));
 			}
 			
@@ -56,7 +55,6 @@ public class ProjectServiceImpl implements ProjectService {
 			PreparedStatement ps = c.prepareStatement(statement);
 			rs = ps.executeQuery();
 			rs.first();
-			System.out.println(rs.getInt(1) + " " + rs.getString(2));
 			result = new Project((long) rs.getInt(1), rs.getString(2));
 			
 		} catch (SQLException e) {
