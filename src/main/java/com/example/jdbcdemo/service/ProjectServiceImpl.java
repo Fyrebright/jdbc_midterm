@@ -34,9 +34,9 @@ public class ProjectServiceImpl implements ProjectService {
 			PreparedStatement ps = c.prepareStatement(statement);
 			rs = ps.executeQuery();
 			rs.first();
-			while(rs.next()) {
+			do {
 				result.add(new Project((long) rs.getInt(1), rs.getString(2)));
-			}
+			} while(rs.next());
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
@@ -58,7 +58,7 @@ public class ProjectServiceImpl implements ProjectService {
 			c.close();
 			
 		} catch (SQLException e) {
-			e.printStackTrace();
+			return null;
 		}
 		return result;
 	}
