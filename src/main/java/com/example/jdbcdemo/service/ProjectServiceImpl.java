@@ -40,8 +40,7 @@ public class ProjectServiceImpl implements ProjectService {
 			
 		} catch (SQLException e) {
 			e.printStackTrace();
-		}
-		System.out.println("==============================================================" + result.size());
+		} 	
 		return result;
 	}
 	
