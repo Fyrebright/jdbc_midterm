@@ -43,7 +43,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void create(Project project) {
-    String statement = String.format("INSERT INTO PROJECT (id, name) VALUES (%d, %s)", project.getId(), project.getName());
+    String statement = String.format("INSERT INTO PROJECT ( id, name ) VALUES ( %d, %s ) ", project.getId(), project.getName());
 		this.jdbcTemplate.update(statement);
 	}
 
@@ -56,7 +56,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void deleteById(long l) {
-		String statement = String.format("DELETE * FROM PROJECT WHERE id = %d", project.getId());
+		String statement = String.format("DELETE * FROM PROJECT WHERE id = %d", l);
 		this.jdbcTemplate.update(statement);
 
 	}
