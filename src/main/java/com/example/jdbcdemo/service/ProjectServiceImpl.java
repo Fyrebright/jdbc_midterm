@@ -77,7 +77,7 @@ public class ProjectServiceImpl implements ProjectService {
 
 	@Override
 	public void update(Project project) {
-		String statement = String.format("UPDATE PROJECT SET name = %s WHERE id = %d", project.getId(), project.getName());
+		String statement = String.format("UPDATE PROJECT SET name = %s WHERE id = %d", project.getName(), project.getId());
 		try {
 			Connection c = datasource.getConnection();
 			PreparedStatement ps = c.prepareStatement(statement);
